@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frog-plugins>
+  <frog-plugin>
+      <id>page_part_forms</id>
+      <version>0.0.1</version>
+      <status>alpha</status>
+  </frog-plugin>
+</frog-plugins>

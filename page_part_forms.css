@@ -1,0 +1,48 @@
+/* Page part forms admin interface {{{ */
+#Page-part-forms-form-area label { margin-bottom: .5em; display: block; }
+
+/* @container */
+#Page-part-forms-columns-2 { width: 100%; overflow: hidden; }
+
+/* @container @element */
+#Page-part-forms-columns-2 .page-part-forms-column { float: left; width: 47%; margin-right: 3%; }
+
+/* Outline structure */
+#Page-part-forms-structure { list-style: none; margin: 0; padding: 0; }
+#Page-part-forms-structure li { padding-bottom: .5em; }
+
+.page-part-forms-type-page-part,
+.page-part-forms-type-text,
+.page-part-forms-type-select,
+.page-part-forms-type-date { padding-left: 25px; }
+
+.page-part-forms-type-select-items li { padding-left: 15px; }
+
+.page-part-forms-type-page-part       { background: url(../../../frog/plugins/page_part_forms/images/type_page_part.png)   no-repeat 0 0; }
+.page-part-forms-type-text            { background: url(../../../frog/plugins/page_part_forms/images/type_text.png)        no-repeat 0 0; }
+.page-part-forms-type-date            { background: url(../../../frog/plugins/page_part_forms/images/type_date.png)        no-repeat 0 0; }
+.page-part-forms-type-select          {	background: url(../../../frog/plugins/page_part_forms/images/type_select.png)      no-repeat 0 0; }
+.page-part-forms-type-select-items li { background: url(../../../frog/plugins/page_part_forms/images/type_select_item.png) no-repeat 0 1px;	}
+
+/* No main node warning */
+#Page-part-forms-nomain-note { padding: .5em; background: #EDFE86; }
+/* }}} Page part forms admin interface */
+
+/* Page_part_forms {{{ */
+#Page-part-forms-Form { margin-top: -1em; padding: 1em; background: white; }  
+.page-part-forms-row { margin-bottom: .75em; }
+
+/* Label and values */
+.page-part-forms-label { width: 10em; display: block; float: left; text-align: right; }
+.page-part-forms-input { display: block; margin-left: 11em; }
+.page-part-forms-input label { font-size:85%; font-weight: normal; }
+
+/* Inline elements */
+.page-part-forms-part-radio,
+.page-part-forms-part-checkbox { margin-right: .5em; }
+
+.page-part-forms-part-radio input,
+.page-part-forms-part-checkbox input,
+.page-part-forms-part-date input { vertical-align: middle; margin-right: .5em; }
+
+/* }}} Page_part_forms */

@@ -28,7 +28,7 @@ else if ($driver == 'sqlite') {
   $pdo->exec("CREATE TABLE $table_name (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     name        VARCHAR(255) NOT NULL,
-    value       TEXT
+    definition  TEXT
   )");
 }
 ?>

@@ -3,6 +3,7 @@
  $replace_with_id = $css_id_prefix . "Form";
 ?>
 <script type="text/javascript">
+//<![CDATA[
 var multiple_content = new Array();
 
 (function($) {
@@ -35,10 +36,10 @@ var multiple_content = new Array();
         // Check if the limit is reached
         if (values.length <= item["limit"]) {
           // Encode the values as JSON string and set it as content
-          $('input[name="' + item["content"] + '"]', $form).val( $.json.encode(values) );
+          $('textarea[name="' + item["content"] + '"]', $form).val( $.json.encode(values) );
         }
         else {
-          // I18n in javascript by replacing placeholader
+          // I18n in javascript by replacing placeholders
           alert(
             '<?php echo __('Too many options are selected for "##TITLE##". Currently there are "##SELECTED##" selected, but only "##LIMIT##" are allowed.'); ?>'
               .replace("##TITLE##", item["title"])
@@ -57,6 +58,7 @@ var multiple_content = new Array();
     });
   });
 })(jQuery);
+//]]>
 </script>
 
 <div id="<?php echo $replace_with_id; ?>">
@@ -144,11 +146,11 @@ switch($element[PagePartFormsController::PROPERTY_TYPE]) {
 
         // NOTE: Frog can only handle simple strings as values instead of arrays. Use javascript to create a string out of the selected items.
         if ($select_many) {
-          echo '<input type="hidden" name="'.$field_name_content.'" value="'.$content.'" />';
+          echo '<textarea style="display: none;" name="'.$field_name_content.'" rows="1" cols="1">'.$content.'</textarea>';
         }
 
         // Select widget
-        echo '<select';
+        echo '<select id="'.$structure_name_css_id.'"';
   
         // Show all values at once
         if ($expand) {
@@ -190,7 +192,7 @@ switch($element[PagePartFormsController::PROPERTY_TYPE]) {
         }
         break;
       case PagePartFormsController::SELECT_TYPE_CHECKBOX:
-        echo '<input type="hidden" name="'.$field_name_content.'" value="'.$content.'" />';
+        echo '<textarea style="display: none;" name="'.$field_name_content.'" rows="1" cols="1">'.$content.'</textarea>';
           
         $multiple_values = PagePartFormsController::Get_multiple_values($content);
           

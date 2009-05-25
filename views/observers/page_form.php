@@ -25,11 +25,8 @@ var multiple_content = new Array();
         // Collect the selected values from checkboxes or lists that have multiple contents
         values = new Array();
         
-        $('input[name="<?php echo $plugin_id; ?>_values_for_' + item["name"] + '"]:checked', $form).each(function() {
-          values.push( $(this).val() );
-        });
-
-        $('select[name="<?php echo $plugin_id; ?>_values_for_' + item["name"] + '"] option:selected', $form).each(function() {
+        $('input[name="<?php echo $plugin_id; ?>_values_for_' + item["name"] + '"]:checked,'+
+          'select[name="<?php echo $plugin_id; ?>_values_for_' + item["name"] + '"] option:selected', $form).each(function() {
           values.push( $(this).val() );
         });
 

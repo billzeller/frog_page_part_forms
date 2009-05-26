@@ -10,7 +10,7 @@ AutoLoader::addFolder(dirname(__FILE__) . '/lib');
 class PagePartFormsController extends PluginController {
     /* Plugin details */
     const PLUGIN_ID      = "page_part_forms";
-    const PLUGIN_VERSION = "0.0.1";
+    const PLUGIN_VERSION = "0.0.2";
     const PLUGIN_URL     = "plugin/page_part_forms/";
 
     /* Location of the view folder */
@@ -105,7 +105,7 @@ class PagePartFormsController extends PluginController {
     public static function Get_instance() {
       if (!self::$Instance) {
         $class = __CLASS__;
-        self::$Instance = new $class();
+        self::$Instance = new $class(false);
       }
 
       return self::$Instance;
@@ -114,14 +114,17 @@ class PagePartFormsController extends PluginController {
     /**
      * Create a new controller instance and apply the sidebar to the backend.
      */
-    public function __construct() {
+    public function __construct($check_permissions = true) {
       AuthUser::load();
       if (!AuthUser::isLoggedIn()) {
         redirect(get_url('login'));
       }
-      // This is developer plugin
-      elseif (!AuthUser::hasPermission('administrator') && !AuthUser::hasPermission('developer')) {
-        redirect(get_url());
+
+      if ($check_permissions) {
+        // This is developer plugin
+        if (!AuthUser::hasPermission('administrator') && !AuthUser::hasPermission('developer')) {
+          redirect(get_url());
+        }
       }
 
       $this->setLayout('backend');

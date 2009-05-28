@@ -10,7 +10,7 @@ AutoLoader::addFolder(dirname(__FILE__) . '/lib');
 class PagePartFormsController extends PluginController {
     /* Plugin details */
     const PLUGIN_ID      = "page_part_forms";
-    const PLUGIN_VERSION = "0.0.2";
+    const PLUGIN_VERSION = "0.0.3";
     const PLUGIN_URL     = "plugin/page_part_forms/";
 
     /* Location of the view folder */
@@ -311,6 +311,30 @@ class PagePartFormsController extends PluginController {
       else {
         redirect(get_url(self::PLUGIN_URL.'edit/'.$page_part_form->id));
       }
+    }
+    
+    public function settings() {
+      // No sidebar
+      $this->assignToLayout('sidebar', null);
+      $this->display('settings');
+    }
+    
+    public function cleanup() {
+      // XXX: because there is no permission check from the backend, it must be done here
+      if (!AuthUser::hasPermission('administrator') && !AuthUser::hasPermission('developer')) {
+        redirect(get_url());
+      }
+
+      $table_name = TABLE_PREFIX.PagePartForm::TABLE_NAME;
+
+      // Connection
+      $pdo = Record::getConnection();
+
+      // Clean metadata
+      $pdo->exec("DROP TABLE $table_name");
+
+      Flash::set('success', __("Table for Page Part Forms deleted. Disable the plugin now."));
+      redirect(get_url('setting'));
     }
     
     /**

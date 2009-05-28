@@ -26,6 +26,8 @@
 
 /* No main node warning */
 #Page-part-forms-nomain-note { padding: .5em; background: #EDFE86; }
+
+#Page-part-forms-delete-table { margin: 1em 0; }
 /* }}} Page part forms admin interface */
 
 /* Page_part_forms {{{ */

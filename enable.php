@@ -10,11 +10,7 @@ $table_name = TABLE_PREFIX.PagePartForm::TABLE_NAME;
 $pdo = Record::getConnection();
 $driver = strtolower($pdo->getAttribute(Record::ATTR_DRIVER_NAME));
 
-// Clean metadata
-$pdo->exec("DROP TABLE $table_name");
-
 if ($driver == 'mysql') {
-
   // Create table
   $pdo->exec("CREATE TABLE $table_name (
     id          int(11) unsigned NOT NULL AUTO_INCREMENT,

@@ -222,7 +222,7 @@ switch($element[PagePartFormsController::PROPERTY_TYPE]) {
 ?>
     </div> <!-- INPUT -->
   </div> <!-- ROW -->
-<? $index++; } ?>
+<?php $index++; } ?>
 </div>
 
 <script type="text/javascript">

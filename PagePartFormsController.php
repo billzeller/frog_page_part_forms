@@ -5,12 +5,12 @@ AutoLoader::addFolder(dirname(__FILE__) . '/lib');
 /**
  * Simple backend controller for custom page parts. Enables the FROG CMS to have custom page part forms.
  *
- * @version 0.0.4
+ * @version 0.0.5
  */
 class PagePartFormsController extends PluginController {
     /* Plugin details */
     const PLUGIN_ID      = "page_part_forms";
-    const PLUGIN_VERSION = "0.0.4";
+    const PLUGIN_VERSION = "0.0.5";
     const PLUGIN_URL     = "plugin/page_part_forms/";
 
     /* Location of the view folder */
@@ -461,7 +461,7 @@ class PagePartFormsController extends PluginController {
 
         // Convert page_parts array to hash
         $page_parts = array();
-        array_walk(PagePart::findByPageId($page->id), create_function('$page_part, $ignore, &$hash', '$hash[$page_part->name] = &$page_part;'), &$page_parts);
+        array_walk(PagePart::findByPageId($page->id), create_function('&$page_part, $ignore, &$hash', '$hash[$page_part->name] = &$page_part;'), $page_parts);
         
         // Add the page_part_form to the admin view
         self::Get_instance()->create_view('observers/page_form', array(

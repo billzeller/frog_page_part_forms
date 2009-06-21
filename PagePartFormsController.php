@@ -461,7 +461,9 @@ class PagePartFormsController extends PluginController {
 
         // Convert page_parts array to hash
         $page_parts = array();
-        array_walk(PagePart::findByPageId($page->id), create_function('&$page_part, $ignore, &$hash', '$hash[$page_part->name] = &$page_part;'), $page_parts);
+        foreach (PagePart::findByPageId($page->id) as $page_part) {
+          $page_parts[$page_part->name] = $page_part;
+        }
         
         // Add the page_part_form to the admin view
         self::Get_instance()->create_view('observers/page_form', array(

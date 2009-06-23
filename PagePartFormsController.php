@@ -5,12 +5,12 @@ AutoLoader::addFolder(dirname(__FILE__) . '/lib');
 /**
  * Simple backend controller for custom page parts. Enables the FROG CMS to have custom page part forms.
  *
- * @version 0.0.6
+ * @version 0.0.7
  */
 class PagePartFormsController extends PluginController {
     /* Plugin details */
     const PLUGIN_ID      = "page_part_forms";
-    const PLUGIN_VERSION = "0.0.6";
+    const PLUGIN_VERSION = "0.0.7";
     const PLUGIN_URL     = "plugin/page_part_forms/";
 
     /* Location of the view folder */

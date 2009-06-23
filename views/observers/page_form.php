@@ -5,6 +5,7 @@
 <script type="text/javascript">
 //<![CDATA[
 var multiple_content = new Array();
+var editor_filters = new Array();
 
 (function($) {
   // Document load
@@ -13,6 +14,11 @@ var multiple_content = new Array();
     $('#tab-control').replaceWith(
       $('#<?php echo $replace_with_id; ?>').remove() // jQuery copies the nodes, so delete the origin
     );
+    
+    // Apply the text filters
+    $.each(editor_filters, function(index, item) {
+      setTextAreaToolbar(item["textarea"], item["filter"]);
+    });
     
     // Add a handler to the form submission to prepare the page_parts (e.g. multiple values and limit check)
     $form = $('form:first'); // XXX: this is fragile!
@@ -63,7 +69,9 @@ var multiple_content = new Array();
 // Number all page parts
 $index = 0;
 // This page parts have multiple values/options
-$multiple_options_elements = array();
+$multiple_content = array();
+// Apply the filters after the form is replaced
+$editor_filters = array();
 
 // Process all structural elements from page_part_forms defnition and create the page_part_form.
 foreach ($structure as $name => $element) {
@@ -112,10 +120,11 @@ switch($element[PagePartFormsController::PROPERTY_TYPE]) {
     echo htmlentities($content, ENT_COMPAT, 'UTF-8');
     echo '</textarea>';
 
-    // Apply the filter
-    echo '<script type="text/javascript">';
-    echo 'setTextAreaToolbar(\''.$structure_name_css_id.'\', \''.$filter_id.'\');';
-    echo '</script>'.PHP_EOL;
+    // Collect the filters for this editor, apply it later
+    array_push($editor_filters, array(
+      'textarea' => $structure_name_css_id,
+      'filter'   => $filter_id,
+    ));
 
     echo '</div>'.PHP_EOL;
   break;
@@ -160,7 +169,7 @@ switch($element[PagePartFormsController::PROPERTY_TYPE]) {
           echo ' multiple="multiple"';
 
           // Add node information for multiple options
-          array_push($multiple_options_elements, array(
+          array_push($multiple_content, array(
             'title'    => $title,
             'content'  => $field_name_content,
             'name'     => $name,
@@ -201,7 +210,7 @@ switch($element[PagePartFormsController::PROPERTY_TYPE]) {
         }
             
         // Add node information for multiple options
-        array_push($multiple_options_elements, array(
+        array_push($multiple_content, array(
           'title'   => $title,
           'content' => $field_name_content,
           'name'    => $name,
@@ -227,8 +236,14 @@ switch($element[PagePartFormsController::PROPERTY_TYPE]) {
 
 <script type="text/javascript">
 <?php
-foreach ($multiple_options_elements as $e) {
+foreach ($multiple_content as $e) {
  echo 'multiple_content.push( {';
+ echo implode(", ", array_map("page_part_forms_dump_hash_delegate", array_keys($e), array_values($e)));
+ echo '});'.PHP_EOL;
+}
+
+foreach ($editor_filters as $e) {
+ echo 'editor_filters.push( {';
  echo implode(", ", array_map("page_part_forms_dump_hash_delegate", array_keys($e), array_values($e)));
  echo '});'.PHP_EOL;
 }

@@ -429,18 +429,22 @@ class PagePartFormsController extends PluginController {
    */
   public static function callback_view_page_page_metadata($metadata) {
     $selected = "";
+    $children_selected = "";
 
     // Search for metadat for this plugin
     foreach ($metadata as $m) {
       if ($m->keyword == self::PLUGIN_ID) {
         $selected = $m->value;
-        break;
+      }
+      if ($m->keyword == self::PLUGIN_ID.'_children') {
+	$children_selected = $m->value;
       }
     }
 
     self::Get_instance()->create_view('observers/form_type', array(
        'page_part_forms' => Record::findAllFrom('PagePartForm', '1=1 ORDER BY name DESC'),
        'selected'        => $selected,
+       'children_selected' => $children_selected,
     ))->display();
   }
 
@@ -456,7 +460,8 @@ class PagePartFormsController extends PluginController {
     }
   
     // Because the metadata is not visible, we can't use $page->metadata[self::PLUGIN_ID]
-    if ($form = PageMetadata::FindOneByPageAndKeyword($page->id, self::PLUGIN_ID)) {
+    if (($form = PageMetadata::FindOneByPageAndKeyword($page->id, self::PLUGIN_ID))
+    	 || ($form = PageMetadata::FindOneByPageAndKeyword($page->parent_id, self::PLUGIN_ID.'_children'))) {
       if ($definition = Record::findByIdFrom('PagePartForm', $form->value)) {
 
         // Convert page_parts array to hash

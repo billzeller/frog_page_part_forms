@@ -454,21 +454,18 @@ class PagePartFormsController extends PluginController {
    * @param page the current page to edit
    */
   public static function callback_view_page($page) {
-    // Is this a newly generated page? Do nothing.
-    if (!isset($page->id)) {
-      return;
-    }
-  
     // Because the metadata is not visible, we can't use $page->metadata[self::PLUGIN_ID]
-    if (($form = PageMetadata::FindOneByPageAndKeyword($page->id, self::PLUGIN_ID))
+    if ((isset($page->id) && $form = PageMetadata::FindOneByPageAndKeyword($page->id, self::PLUGIN_ID))
     	 || ($form = PageMetadata::FindOneByPageAndKeyword($page->parent_id, self::PLUGIN_ID.'_children'))) {
       if ($definition = Record::findByIdFrom('PagePartForm', $form->value)) {
 
         // Convert page_parts array to hash
         $page_parts = array();
-        foreach (PagePart::findByPageId($page->id) as $page_part) {
-          $page_parts[$page_part->name] = $page_part;
-        }
+	if(isset($page->id)){
+      	  foreach (PagePart::findByPageId($page->id) as $page_part) {
+        	  $page_parts[$page_part->name] = $page_part;
+          }
+	}
         
         // Add the page_part_form to the admin view
         self::Get_instance()->create_view('observers/page_form', array(
